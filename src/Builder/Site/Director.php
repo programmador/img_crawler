@@ -13,11 +13,7 @@ class Director
 
     public function constructCrawlSite(string $url, int $depth) : self
     {
-        /*$this->builder->setTokenId($this->getAccessToken());
-        $this->builder->setUid($uid);
-        $this->builder->setKey($this->getMacKey());
-        $this->builder->setScope($scope);
-        $this->builder->setTtl($ttl);*/
+        $this->builder->setUrl($url);
         return $this;
     }
 }

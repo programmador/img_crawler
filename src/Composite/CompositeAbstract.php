@@ -49,4 +49,9 @@ abstract class CompositeAbstract
         }
         return $level;
     }
+
+    public function accept(CompositeVisitorInterface $visitor)
+    {
+        $visitor->visit($this);
+    }
 }
