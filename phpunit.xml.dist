@@ -15,6 +15,10 @@
         <env name="APP_SECRET" value="s$cretf0rt3st" />
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- define your env variables for the test env here -->
+
+        <!-- ###+ symfony-bundles/redis-bundle ### -->
+        <env name="REDIS_URL" value="tcp://127.0.0.1:6379?database=0"/>
+        <!-- ###- symfony-bundles/redis-bundle ### -->
     </php>
 
     <testsuites>
