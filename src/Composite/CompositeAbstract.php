@@ -43,11 +43,21 @@ abstract class CompositeAbstract
     public function getLevel() : int
     {
         $level = 1;
-        while($parent = $this->getParent()) {
+        $parent = $this->getParent();
+        while($parent) {
             $level++;
             $parent = $parent->getParent();
         }
         return $level;
+    }
+
+    public function deleteChild(string $uri)
+    {
+        foreach($this->children as $key => $child) {
+            if($child->getUri() == $uri) {
+                unset($this->children[$key]);
+            }
+        }
     }
 
     public function accept(CompositeVisitorInterface $visitor)

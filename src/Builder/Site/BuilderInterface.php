@@ -8,5 +8,7 @@ interface BuilderInterface
 {
     function setUrl(string $url);
 
+    function setDepth(int $depth);
+
     function getResult() : Page;
 }

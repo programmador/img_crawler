@@ -14,6 +14,7 @@ class Director
     public function constructCrawlSite(string $url, int $depth) : self
     {
         $this->builder->setUrl($url);
+        $this->builder->setDepth($depth);
         return $this;
     }
 }

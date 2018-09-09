@@ -6,6 +6,8 @@ use App\Composite\CompositeAbstract;
 
 class Page extends CompositeAbstract
 {
+    const FETCH_ERROR = 'FETCH_ERROR';
+
     private $uri = '/';
     private $duration = 0;
     private $images = 0;

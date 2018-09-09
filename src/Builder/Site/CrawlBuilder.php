@@ -7,11 +7,18 @@ use App\Composite\CompositeVisitorInterface;
 use App\Composite\Page\Page;
 use InvalidArgumentException;
 use Symfony\Component\DomCrawler\Crawler;
+use Exception;
 
 class CrawlBuilder extends BuilderAbstract implements BuilderInterface, CompositeVisitorInterface
 {
+    private $uniqueUris = [];
+
     public function getResult() : Page
     {
+        ini_set('default_socket_timeout', 5);   /* Hello from hell!
+                                                   Sorry, guys, this project is
+                                                   not for production.
+                                                   One should use Guzzle instead. */
         $page = new Page();
         $page->setUri('/');
         $page->accept($this);
@@ -20,16 +27,45 @@ class CrawlBuilder extends BuilderAbstract implements BuilderInterface, Composit
 
     public function visit(CompositeAbstract $page)
     {
+        $this->uniqueUris[] = $page->getUri();
         $link = $this->url() . $page->getUri();
-        $html = file_get_contents($link);
-        $crawler = new Crawler($html);
+        try {
+            $html = file_get_contents($link);
+        } catch (Exception $e) {
+            var_dump("Warning: failed fetching " . $page->getUri());
+            $parent = $page->getParent();
+            if($parent) {
+                $parent->deleteChild($page->getUri());
+            }
+            return;
+        }
+        $crawler = new Crawler($html);  // Yeah, not recursion-friendly action. I'm sorry.
 
         $imageNumber = count($this->getImageUris($crawler));
         $page->setImages($imageNumber);
 
-        $childPages = $this->getChildPageUris($crawler);
+        $str = str_pad($page->getUri(), strlen($page->getUri()) + $page->getLevel() - 1, "_",
+            STR_PAD_LEFT);
+        var_dump('Info: processed ' . $str);
 
-        // @TODO call accept() for children until max depth reached
+        if($page->getLevel() < $this->depth()) {
+            $childPageUris = $this->getChildPageUris($crawler);
+            $this->processChildren($page, $childPageUris);
+        }
+    }
+
+    private function processChildren(CompositeAbstract $page, array $childUris)
+    {
+        foreach($childUris as $childUri) {
+            if(in_array($childUri, $this->uniqueUris)) {
+                continue;
+            }
+            $child = new Page();
+            $page->addChild($child);
+            $child->setUri($childUri);
+            $child->setParent($page);
+            $child->accept($this);
+        }
     }
 
     private function getImageUris(Crawler $crawler) : array

@@ -9,6 +9,7 @@ abstract class BuilderAbstract
     private $redis;
     private $scheme;
     private $host;
+    private $depth = 0;
 
     public function __construct(Redis $redis)
     {
@@ -28,6 +29,16 @@ abstract class BuilderAbstract
         }
         $this->scheme = $urlData['scheme'];
         $this->host = $urlData['host'];
+    }
+
+    public function setDepth(int $depth)
+    {
+        $this->depth = $depth;
+    }
+
+    public function depth() : int
+    {
+        return $this->depth;
     }
 
     protected function scheme() : string
