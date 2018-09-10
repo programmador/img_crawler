@@ -19,7 +19,7 @@ class StatsController extends AbstractController
     }
 
     /**
-     * @Route("/stats", name="stats")
+     * @Route("/", name="stats")
      */
     public function index()
     {
