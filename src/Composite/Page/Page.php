@@ -8,9 +8,20 @@ class Page extends CompositeAbstract
 {
     const FETCH_ERROR = 'FETCH_ERROR';
 
+    private $id = 0;
     private $uri = '/';
     private $duration = 0;
     private $images = 0;
+
+    public function setId(int $num)
+    {
+        $this->id = $num;
+    }
+
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
     public function setUri(string $value)
     {

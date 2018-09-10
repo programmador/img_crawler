@@ -11,10 +11,14 @@ use Exception;
 
 class CrawlBuilder extends BuilderAbstract implements BuilderInterface, CompositeVisitorInterface
 {
+    use PagePersisterTrait;
+
     private $uniqueUris = [];
+    private $lastId = 0;
 
     public function getResult() : Page
     {
+        $this->clearStorage();
         ini_set('default_socket_timeout', 5);   /* Hello from hell!
                                                    Sorry, guys, this project is
                                                    not for production.
@@ -43,6 +47,9 @@ class CrawlBuilder extends BuilderAbstract implements BuilderInterface, Composit
 
         $imageNumber = count($this->getImageUris($crawler));
         $page->setImages($imageNumber);
+
+        $page->setId(++$this->lastId);
+        $this->persist($page);
 
         $str = str_pad($page->getUri(), strlen($page->getUri()) + $page->getLevel() - 1, "_",
             STR_PAD_LEFT);
