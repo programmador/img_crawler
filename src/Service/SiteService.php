@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Builder\Site\BuilderAbstract;
 use App\Builder\Site\CrawlBuilder;
+use App\Builder\Site\ImageStatsBuilder;
 use App\Builder\Site\Director;
 use App\Composite\Page\Page;
 
@@ -21,6 +22,14 @@ class SiteService
         $builder = new CrawlBuilder($this->redis);
         $director = new Director($builder);
         $director->constructCrawlSite($url, $depth);
+        return $builder->getResult();
+    }
+
+    public function getImageStats(string $host) : array
+    {
+        $builder = new ImageStatsBuilder($this->redis);
+        $director = new Director($builder);
+        $director->constructImageStats($host);
         return $builder->getResult();
     }
 
@@ -43,28 +52,5 @@ class SiteService
             }
         }
         return $out;
-    }
-
-    public function getPagesByImageNumbers(string $host) : array
-    {
-        $out = [];
-        $scores = $this->getImageScore($host);
-        foreach($scores as $id => $score) {
-            $out[$this->getImageUri($host, $id)] = $score;
-        }
-        return $out;
-    }
-
-    private function getImageScore(string $host) : array
-    {
-        $key = implode(':', [BuilderAbstract::KEY_ROOT, $host, BuilderAbstract::KEY_IMAGES]);
-        $scores = $this->redis->zrange($key, 0, -1, 'WITHSCORES');
-        return $scores;
-    }
-
-    private function getImageUri(string $host, int $id) : string
-    {
-        $key = implode(':', [BuilderAbstract::KEY_ROOT, $host, BuilderAbstract::KEY_URIS]);
-        return $this->redis->hget($key, $id);
     }
 }

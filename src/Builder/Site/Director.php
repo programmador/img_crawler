@@ -17,4 +17,10 @@ class Director
         $this->builder->setDepth($depth);
         return $this;
     }
+
+    public function constructImageStats(string $host) : self
+    {
+        $this->builder->setUrl('http://' . $host);
+        return $this;
+    }
 }

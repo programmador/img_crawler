@@ -10,5 +10,7 @@ interface BuilderInterface
 
     function setDepth(int $depth);
 
-    function getResult() : Page;
+    /* Simple image stats builder currently does not implement Page composite as a return value */ 
+    //function getResult() : Page;
+    function getResult();
 }

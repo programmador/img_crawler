@@ -25,7 +25,7 @@ class StatsController extends AbstractController
     {
         $hosts = [];
         foreach($this->siteService->getHosts() as $host) {
-            $hosts[$host] = $this->siteService->getPagesByImageNumbers($host);
+            $hosts[$host] = $this->siteService->getImageStats($host);
         }
         return $this->render('stats/index.html.twig', compact('hosts'));
     }
