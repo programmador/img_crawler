@@ -1,6 +1,6 @@
 # Run locally
 
-Setup redis connection and then run
+Setup redis connection and then run:
 
 ```
 php bin/console domain:process <url> [depth]
@@ -9,11 +9,14 @@ php bin/console domain:process <url> [depth]
 
 # Run with docker
 
-Setup crawler command in `docker-composse.yml` and run
+Be sure to have all required options in Your kernel config if You're using Linux or FreeBSD.
+Setup crawler command in `docker-composse.yml` and run:
 
 ```
 docker-compose up --build
 ```
+
+Wait for crawler to finish (optionally) and then access http://localhost:8080
 
 
 # Todo (project design)
