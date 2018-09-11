@@ -1,7 +1,18 @@
-# Run
+# Run locally
+
+Setup redis connection and then run
 
 ```
 php bin/console domain:process <url> [depth]
+```
+
+
+# Run with docker
+
+Setup crawler command in `docker-composse.yml` and run
+
+```
+docker-compose up --build
 ```
 
 
@@ -23,4 +34,4 @@ php bin/console domain:process <url> [depth]
 
 # Wontfix
 
-* Use SQL storage
+* Use SQL storage (what for?)

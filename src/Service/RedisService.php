@@ -33,7 +33,7 @@ class RedisService
 
             And Yesss! Of course, Ill leave the server config hardcoded here!
          */
-        $this->redis = new Redis('redis://127.0.0.1:6379/');
+        $this->redis = new Redis('redis://redis:6379/');
     }
 
     public function c() : Redis

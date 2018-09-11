@@ -19,10 +19,6 @@ class CrawlBuilder extends BuilderAbstract implements BuilderInterface, Composit
     public function getResult() : Page
     {
         $this->clearStorage();
-        ini_set('default_socket_timeout', 5);   /* Hello from hell!
-                                                   Sorry, guys, this project is
-                                                   not for production.
-                                                   One should use Guzzle instead. */
         $page = new Page();
         $page->setUri('/');
         $page->accept($this);

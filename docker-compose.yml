@@ -1,0 +1,26 @@
+version: '2'
+services:
+  web:
+    build:
+      dockerfile: ./docker/Dockerfile-web
+      context: .
+    container_name: devweb
+    ports:
+      - "8080:80"
+    links:
+      - redis
+    depends_on:
+      - redis
+  cli:
+    build:
+      dockerfile: ./docker/Dockerfile-console
+      context: .
+    container_name: devcli
+    links:
+      - redis
+    depends_on:
+      - redis
+    command: php bin/console domain:process http://gadget-it.ru/ 3
+  redis:
+    image: redis
+    container_name: redis
