@@ -3,37 +3,16 @@
 namespace App\Service;
 
 use Predis\Client as Redis;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class RedisService
 {
     private $redis;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        /*
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-            I HATE SYMFONY BUNDLES
-
-            I'm sorry. I know it's not the best place for blaming
-            but it's not a production project.
-
-            One bundle needs an older (yes, an older one!) PHP
-
-            Another bundle provides nice config in .env and dependency injection but
-            is only able to build a cluster connection and I get:
-            "Cannot use 'KEYS' over clusters of connections."
-            Why can't I just setup ['cluster' => false] as in Laravel?
-            Nobody uses KEYS command in Redis+Symfony?
-
-            And Yesss! Of course, Ill leave the server config hardcoded here!
-         */
-        $this->redis = new Redis('redis://redis:6379/');
+        $connString = $container->getParameter('redis')['connection_string'];
+        $this->redis = new Redis($connString);
     }
 
     public function c() : Redis

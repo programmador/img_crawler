@@ -1,0 +1,3 @@
+parameters:
+  redis:
+    connection_string: "redis://redis:6379/"

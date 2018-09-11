@@ -1,6 +1,6 @@
 # Run locally
 
-Setup redis connection and then run:
+Setup redis connection in config/redis.yaml and then run:
 
 ```
 php bin/console domain:process <url> [depth]
@@ -9,14 +9,15 @@ php bin/console domain:process <url> [depth]
 
 # Run with docker
 
-Be sure to have all required options in Your kernel config if You're using Linux or FreeBSD.
-Setup crawler command in `docker-composse.yml` and run:
+Be sure to have all required options in Your kernel config enabled if You're using Linux or FreeBSD.
+Modify crawler command in `docker-composse.yml` (optionally) and run:
 
 ```
 docker-compose up --build
 ```
 
 Wait for crawler to finish (optionally) and then access http://localhost:8080
+Also You can keep refreshing the page while crawler command is working
 
 
 # Todo (project design)
@@ -38,3 +39,9 @@ Wait for crawler to finish (optionally) and then access http://localhost:8080
 # Wontfix
 
 * Use SQL storage (what for?)
+* Use redis bundle (one bundle needs an ancient php, other can't create a non-clustered connection)
+
+
+# Notes
+
+* The project is able to crawl and then output multiple sites info
